@@ -12,7 +12,7 @@ import datetime
 import webbrowser
 
 # Steam API requirements
-from user_info import steam_user_info
+from scraping_tools import steam_user_info
 from recommendations import game_details
 
 # GF: 76561198120441502

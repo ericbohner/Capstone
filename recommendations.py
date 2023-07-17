@@ -1,7 +1,7 @@
-from user_info import steam_user_info
-from user_info import recently_played_games
-from user_info import steam_library
-from user_info import get_game_details
+from scraping_tools import steam_user_info
+from scraping_tools import recently_played_games
+from scraping_tools import steam_library
+from scraping_tools import get_game_details
 
 import pandas as pd
 
