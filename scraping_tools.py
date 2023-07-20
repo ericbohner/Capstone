@@ -22,13 +22,13 @@ def steam_user_info(steamid):
     '''
     user_details = steam.users.get_user_details(steamid)
 
-    # personaname = user_details['player']['personaname']
-    # profile_url = user_details['player']['profileurl']
-    # time_created = user_details['player']['timecreated']
+    personaname = user_details['player']['personaname']
+    profile_url = user_details['player']['profileurl']
+    time_created = user_details['player']['timecreated']
 
     # user_info = [personaname, profile_url, time_created]
 
-    return user_details# user_info
+    return personaname, profile_url, time_created
 
 def recently_played_games(steamid):
     '''

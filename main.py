@@ -29,6 +29,13 @@ class MainScreen(MDScreen):
     time_created = StringProperty("")
     steam_id = StringProperty("") 
 
+    header_img = ['https://cdn.akamai.steamstatic.com/steam/apps/10180/header.jpg?t=1654809646',
+                'https://cdn.akamai.steamstatic.com/steam/apps/1372110/header.jpg?t=1666908137',
+                'https://cdn.akamai.steamstatic.com/steam/apps/1732190/header.jpg?t=1663081460',
+                'https://cdn.akamai.steamstatic.com/steam/apps/694280/header.jpg?t=1652368094',
+                'https://cdn.akamai.steamstatic.com/steam/apps/751780/header.jpg?t=1667237775',
+                'https://cdn.akamai.steamstatic.com/steam/apps/840140/header.jpg?t=1588046169']
+
     def get_steam_id(self, instance):
         '''
         Gets the user's steam id from the MDTextField 'steam_id_input'.
@@ -57,7 +64,7 @@ class MainScreen(MDScreen):
 
         for i in range(6):
             url = 'https://steamcommunity.com/id/afishnamedfish/'
-            img = 'https://cdn.akamai.steamstatic.com/steam/apps/285920/capsule_sm_120.jpg?t=1644900341'
+            img = self.header_img[i]
             self.create_smart_tile(url, img, i, names, prices)
 
     def create_smart_tile(self, url, img, index, names, prices):

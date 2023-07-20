@@ -7,20 +7,20 @@ import pandas as pd
 
 def game_details():
     names = [
-        'SurReal Subway',
-        'Battle Motion',
-        'Game Name',
-        'Star Wars',
-        'Other Game',
-        'Genshin Impact'
+        'Call of Duty: Modern Warfare 2 (2009)',
+        'JoJos Bizarre Adventure: All-Star Battle R',
+        'FATAL FRAME / PROJECT ZERO: Maiden of Black Water',
+        'Zombie Army 4: Dead War',
+        'Forager',
+        '武侠乂 The Swordsmen X'
     ]
     prices = [
-        '9.99',
-        '10.01',
-        '93.21',
-        '9.34',
-        '3.00',
-        'FREE'
+        '19.99',
+        '49.99',
+        '29.99',
+        '49.99',
+        '19.99',
+        '24.99'
     ]
     return names, prices
 
