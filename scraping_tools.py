@@ -54,8 +54,7 @@ def recently_played_games(steamid):
 
 def steam_library(steamid):
     '''
-    Gets the entire steam library from the user along with hours played.
-    Sorted by most played to least played.
+    Gets the entire steam library as a DataFrame from the user along with hours played.
 
     Args:
         steamid: a string of the user's Steam ID
@@ -63,12 +62,19 @@ def steam_library(steamid):
     Returns:
         user_library: a DataFrame containing the following columns:
             appid,
-            name,
-            playtime_2weeks,
-            playtime_forever
+            playtime_forever,
+            user_id
     '''
     user_library = steam.users.get_owned_games(steamid)
-    return user_library
+    game_data = user_library['games']
+    app_data = []
+    for game in game_data:
+        app_id = game['appid']
+        playtime_forever = game['playtime_forever']
+        app_data.append({'app_id': app_id, 'hours': playtime_forever})
+    library = pd.DataFrame(app_data)
+    library['user_id'] = int(steamid)
+    return library
 
 def get_game_details(gameid):
     '''
@@ -99,9 +105,10 @@ def get_user_app_stats(steamid, app_id):
     user_app_stats = steam.apps.get_user_stats(steamid, app_id)
     return user_app_stats
 
+#### TESTING FUNCTIONS ####
 # userid = '76561198120441502'
 # userid2 = '76561198018875258'
 # appid = '1868140'
 
-# print(get_app_pubs_devs(appid))
+# print(get_game_details('304390'))
 
