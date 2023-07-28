@@ -14,11 +14,11 @@ import pandas as pd
 
 # Steam API requirements
 from scraping_tools import steam_user_info
+
+# getting model predictions / recommendations
 from recommendations import game_details
 from recommendations import ncf_model_predictions
-
-# GF: 76561198120441502
-# BF: 76561198018875258
+from recommendations import get_cold_start_recs
 
 # setting the window size
 Window.size = (600, 750)
@@ -26,6 +26,13 @@ Window.size = (600, 750)
 # read in important csvs
 ncf_df = pd.read_csv('data/ncf_recommendations.csv')
 game_info_df = pd.read_csv('data/game_details.csv')
+
+cold_start_users = ['76561198120441502', 
+                    '76561198120441502', 
+                    '76561198306608045', 
+                    '76561198086706469', 
+                    '76561198182320227', 
+                    '76561197980279926']
 
 class MainScreen(MDScreen):
     
@@ -35,30 +42,37 @@ class MainScreen(MDScreen):
     time_created = StringProperty("")
     steam_id = StringProperty("") 
 
-    def get_steam_id(self, instance):
-        '''
-        Gets the user's steam id from the MDTextField 'steam_id_input'.
-        Then calls the functions that get the rest of the information for the app.
-        '''
-        steam_id = instance.text
-        self.get_user_info(steam_id)
-        self.get_recommendations(steam_id)
+    def cold_start_btn(self, steam_id):
+        if steam_id in cold_start_users:
+            self.get_user_info(steam_id)
+            titles, header_images, prices = get_cold_start_recs()
+            self.create_recommendations(titles, header_images, prices)
+        else:
+            titles, header_images, prices = get_cold_start_recs()
+            self.create_recommendations(titles, header_images, prices)
+            
+
+    def funk_svd_btn(self, steam_id):
+        print(steam_id)
+
+    def ncf_btn(self, steam_id):
+        user_id = int(steam_id)
+        
+        # get predictions (returns app_id)
+        top10_appIDs = ncf_model_predictions(test_user=user_id, ncf_df=ncf_df)
+        
+        # get predicted game details
+        top10_titles, header_images, prices = game_details(top10_appIDs, game_info_df)
+
+        # create recommendation tiles
+        self.create_recommendations(top10_titles, header_images, prices)
+
 
     def get_user_info(self, steam_id):
         '''Find user_info from steam_id'''
-        pass
-        # self.user_info = steam_user_info(steam_id)
-        # self.personaname, self.profile_url, self.created_date = self.user_info
-        # self.time_created = str(datetime.datetime.fromtimestamp(self.created_date))
-
-    def get_recommendations(self, steam_id):
-        '''Gets user's game recommenations'''
-        user_id = int(steam_id)
-        top10_appIDs = ncf_model_predictions(test_user=user_id, ncf_df=ncf_df)
-        print(top10_appIDs)
-        top10_titles, header_images, prices = game_details(top10_appIDs, game_info_df)
-        print(top10_titles, header_images, prices)
-        self.create_recommendations(top10_titles, header_images, prices)
+        self.user_info = steam_user_info(steam_id)
+        self.personaname, self.profile_url, self.created_date = self.user_info
+        self.time_created = str(datetime.datetime.fromtimestamp(self.created_date))
 
     def create_recommendations(self, top10_titles, header_images, prices):
         '''Clear existing recommentations and create new recommendations'''

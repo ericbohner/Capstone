@@ -38,9 +38,6 @@ def ncf_model_predictions(test_user, ncf_df):
 
     return top10_appIDs
 
-
-# print(ncf_model_predictions(3046002))
-
 def game_details(top10_appIDs, game_info_df):
 
     game_details = game_info_df.loc[game_info_df['app_id'].isin(top10_appIDs)]
@@ -62,21 +59,32 @@ def game_details(top10_appIDs, game_info_df):
     prices = np.array(prices).flatten().tolist()
     prices = [round(value, 2) for value in prices]
 
-    # names = [
-    #     'Call of Duty: Modern Warfare 2 (2009)',
-    #     'JoJos Bizarre Adventure: All-Star Battle R',
-    #     'FATAL FRAME / PROJECT ZERO: Maiden of Black Water',
-    #     'Zombie Army 4: Dead War',
-    #     'Forager',
-    #     '武侠乂 The Swordsmen X'
-    # ]
-    # prices = [
-    #     '19.99',
-    #     '49.99',
-    #     '29.99',
-    #     '49.99',
-    #     '19.99',
-    #     '24.99'
-    # ]
     return titles, header_images, prices
 
+def get_cold_start_recs():
+
+    titles = [
+        'Call of Duty: Modern Warfare 2 (2009)',
+        'JoJos Bizarre Adventure: All-Star Battle R',
+        'FATAL FRAME / PROJECT ZERO: Maiden of Black Water',
+        'Zombie Army 4: Dead War',
+        'Forager',
+        '武侠乂 The Swordsmen X'
+    ]
+    header_images = [
+        'https://cdn.akamai.steamstatic.com/steam/apps/10180/header.jpg?t=1654809646',
+        'https://cdn.akamai.steamstatic.com/steam/apps/1372110/header.jpg?t=1666908137',
+        'https://cdn.akamai.steamstatic.com/steam/apps/1732190/header.jpg?t=1663081460',
+        'https://cdn.akamai.steamstatic.com/steam/apps/694280/header.jpg?t=1652368094',
+        'https://cdn.akamai.steamstatic.com/steam/apps/751780/header.jpg?t=1667237775',
+        'https://cdn.akamai.steamstatic.com/steam/apps/840140/header.jpg?t=1588046169'
+    ]
+    prices = [
+        '19.99',
+        '49.99',
+        '29.99',
+        '49.99',
+        '19.99',
+        '24.99'
+    ]
+    return titles, header_images, prices

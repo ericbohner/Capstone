@@ -3,4 +3,5 @@
 data/clean_*.csv
 *.pth
 *.npz
+test_users.txt
 lightning_logs/
