@@ -10,16 +10,22 @@ from kivymd.uix.label import MDLabel
 # data manipulation
 import datetime
 import webbrowser
+import pandas as pd
 
 # Steam API requirements
 from scraping_tools import steam_user_info
 from recommendations import game_details
+from recommendations import ncf_model_predictions
 
 # GF: 76561198120441502
 # BF: 76561198018875258
 
 # setting the window size
 Window.size = (600, 750)
+
+# read in important csvs
+ncf_df = pd.read_csv('data/ncf_recommendations.csv')
+game_info_df = pd.read_csv('data/game_details.csv')
 
 class MainScreen(MDScreen):
     
@@ -29,13 +35,6 @@ class MainScreen(MDScreen):
     time_created = StringProperty("")
     steam_id = StringProperty("") 
 
-    header_img = ['https://cdn.akamai.steamstatic.com/steam/apps/10180/header.jpg?t=1654809646',
-                'https://cdn.akamai.steamstatic.com/steam/apps/1372110/header.jpg?t=1666908137',
-                'https://cdn.akamai.steamstatic.com/steam/apps/1732190/header.jpg?t=1663081460',
-                'https://cdn.akamai.steamstatic.com/steam/apps/694280/header.jpg?t=1652368094',
-                'https://cdn.akamai.steamstatic.com/steam/apps/751780/header.jpg?t=1667237775',
-                'https://cdn.akamai.steamstatic.com/steam/apps/840140/header.jpg?t=1588046169']
-
     def get_steam_id(self, instance):
         '''
         Gets the user's steam id from the MDTextField 'steam_id_input'.
@@ -43,31 +42,37 @@ class MainScreen(MDScreen):
         '''
         steam_id = instance.text
         self.get_user_info(steam_id)
-        self.get_recommendations()
+        self.get_recommendations(steam_id)
 
     def get_user_info(self, steam_id):
         '''Find user_info from steam_id'''
+        pass
+        # self.user_info = steam_user_info(steam_id)
+        # self.personaname, self.profile_url, self.created_date = self.user_info
+        # self.time_created = str(datetime.datetime.fromtimestamp(self.created_date))
 
-        self.user_info = steam_user_info(steam_id)
-        self.personaname, self.profile_url, self.created_date = self.user_info
-        self.time_created = str(datetime.datetime.fromtimestamp(self.created_date))
-
-    def get_recommendations(self):
+    def get_recommendations(self, steam_id):
         '''Gets user's game recommenations'''
-        names, prices = game_details()
-        self.create_recommendations(names, prices)
+        user_id = int(steam_id)
+        top10_appIDs = ncf_model_predictions(test_user=user_id, ncf_df=ncf_df)
+        print(top10_appIDs)
+        top10_titles, header_images, prices = game_details(top10_appIDs, game_info_df)
+        print(top10_titles, header_images, prices)
+        self.create_recommendations(top10_titles, header_images, prices)
 
-    def create_recommendations(self, names, prices):
+    def create_recommendations(self, top10_titles, header_images, prices):
         '''Clear existing recommentations and create new recommendations'''
 
         self.ids.image_grid.clear_widgets()
 
         for i in range(6):
             url = 'https://steamcommunity.com/id/afishnamedfish/'
-            img = self.header_img[i]
-            self.create_smart_tile(url, img, i, names, prices)
+            img = header_images[i]
+            title = top10_titles[i]
+            price = prices[i]
+            self.create_smart_tile(url, img, title, price)
 
-    def create_smart_tile(self, url, img, index, names, prices):
+    def create_smart_tile(self, url, img, title, price):
         '''Add MDSmartTile widgets to the image_grid MDStackLayout'''
 
         # creating the image tile
@@ -85,11 +90,11 @@ class MainScreen(MDScreen):
 
         # two labels for the image tile
         rec_label = MDLabel(
-            text=names[index],
+            text=title,
             bold=True
         )
         price_label = MDLabel(
-            text=prices[index],
+            text=str(price),
             bold=True,
             size_hint=(0.5, 1),
             halign='right'
