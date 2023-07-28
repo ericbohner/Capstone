@@ -1,3 +1,5 @@
 *.csv
 *.json
 data/clean_*.csv
+*.pth
+*.npz
