@@ -15,6 +15,7 @@ that takes in a User ID to determine user preferences according to to selected m
 Here is an example of the UI providing recommendations to a user:
 
 
+![image](https://github.com/ericbohner/Capstone/assets/131715470/4861f2ec-3fea-42c9-b6e5-f3a3833f30fa)
 
 
 
