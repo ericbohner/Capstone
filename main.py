@@ -18,6 +18,7 @@ from scraping_tools import steam_user_info
 # getting model predictions / recommendations
 from recommendations import game_details
 from recommendations import ncf_model_predictions
+from recommendations import svd_model_predictions
 from recommendations import get_cold_start_recs
 
 # setting the window size
@@ -26,6 +27,7 @@ Window.size = (600, 750)
 # read in important csvs
 ncf_df = pd.read_csv('data/ncf_recommendations.csv')
 game_info_df = pd.read_csv('data/game_details.csv')
+svd_df = pd.read_csv('data/svd_recommendations.csv')
 
 cold_start_users = ['76561198120441502', 
                     '76561198120441502', 
@@ -45,16 +47,27 @@ class MainScreen(MDScreen):
     def cold_start_btn(self, steam_id):
         if steam_id in cold_start_users:
             self.get_user_info(steam_id)
-            titles, header_images, prices = get_cold_start_recs()
+            top10_appIDs = get_cold_start_recs(game_info_df)
+            titles, header_images, prices = game_details(top10_appIDs, game_info_df)
             self.create_recommendations(titles, header_images, prices)
         else:
-            titles, header_images, prices = get_cold_start_recs()
+            top10_appIDs = get_cold_start_recs(game_info_df)
+            titles, header_images, prices = game_details(top10_appIDs, game_info_df)
             self.create_recommendations(titles, header_images, prices)
             
 
     def funk_svd_btn(self, steam_id):
-        print(steam_id)
-        # make changes here. tesT?
+        user_id = int(steam_id)
+
+        # get predictions (returns app_id)
+        top10_appIDs = svd_model_predictions(test_user=user_id, svd_df=svd_df)
+
+        # get predicted game details
+        top10_titles, header_images, prices = game_details(top10_appIDs, game_info_df)
+
+        # create recommendation tiles
+        self.create_recommendations(top10_titles, header_images, prices)
+
 
     def ncf_btn(self, steam_id):
         user_id = int(steam_id)
