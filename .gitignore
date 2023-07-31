@@ -2,6 +2,7 @@
 *.json
 data/clean_*.csv
 *.npz
+*.pdf
 README.md
 test_users.txt
 lightning_logs/
