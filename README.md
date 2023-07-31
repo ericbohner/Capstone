@@ -110,3 +110,7 @@ recommendations.py reads in the trained models, training datasets, and user info
 to make predictions for a specific user.  As part of the processing, it generates header images,
 prices, and game titles which are passed back to main.py for being displayed in the app.
 
+## Datasets
+
+The dataset was collected from the Steam Official Store.  Usernames were anonymized.  The dataset is
+hosted on [Kaggle](https://www.kaggle.com/datasets/antonkozyriev/game-recommendations-on-steam?select=games.csv)
