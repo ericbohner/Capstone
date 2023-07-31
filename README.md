@@ -10,7 +10,7 @@ to users from an existing dataset of games according to three different models: 
 which determines popular and similar games; an SVD model, which attempts to determine user preferences
 from a user-item matrix; and a neural collaborative filtering model, which takes user and item
 embeddings to determine user preferences.  These models are presented in a custom-built front end 
-that takes in a User ID to determine user preferences according to to selected model.
+that takes in a User ID to determine user preferences according to the selected model.
 
 Here is an example of the UI providing recommendations to a user:
 
