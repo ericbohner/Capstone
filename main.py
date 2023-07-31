@@ -54,7 +54,7 @@ class MainScreen(MDScreen):
 
     def funk_svd_btn(self, steam_id):
         print(steam_id)
-        # make changes here.
+        # make changes here. tesT?
 
     def ncf_btn(self, steam_id):
         user_id = int(steam_id)
