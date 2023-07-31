@@ -42,6 +42,9 @@ data_cleaning.ipynb includes the cleaning process for several datasets:
 the steam_games.csv dataset was eventually abandoned in favour of combining the games.csv
 and games_metadata.json files to get one-hot encoded game data.
 
+The dataset was collected from the Steam Official Store.  Usernames were anonymized.  The dataset is
+hosted on [Kaggle](https://www.kaggle.com/datasets/antonkozyriev/game-recommendations-on-steam?select=games.csv).
+
 ## Exploratory Data Analysis
 
 EDA.ipynb includes some preliminary observations from the dataset, such as the most frequently
@@ -109,8 +112,3 @@ profile. It was also used to impute some missing data from the steam_games datas
 recommendations.py reads in the trained models, training datasets, and user information in order 
 to make predictions for a specific user.  As part of the processing, it generates header images,
 prices, and game titles which are passed back to main.py for being displayed in the app.
-
-## Datasets
-
-The dataset was collected from the Steam Official Store.  Usernames were anonymized.  The dataset is
-hosted on [Kaggle](https://www.kaggle.com/datasets/antonkozyriev/game-recommendations-on-steam?select=games.csv)
