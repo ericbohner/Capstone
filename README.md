@@ -37,7 +37,7 @@ data_cleaning.ipynb includes the cleaning process for several datasets:
 - games.csv (providing game details. games_metadata.json provided tag details)
 - users.csv (showing how many reviews a user had given and how many products they owned)
 - recommendations.csv (containing user reviews for specific games)
-- steam_games.csv ()
+- steam_games.csv (game details including publisher, developer, etc.)
 
 the steam_games.csv dataset was eventually abandoned in favour of combining the games.csv
 and games_metadata.json files to get one-hot encoded game data.
