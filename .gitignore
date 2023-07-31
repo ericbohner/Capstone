@@ -2,5 +2,6 @@
 *.json
 data/clean_*.csv
 *.npz
+README.md
 test_users.txt
 lightning_logs/
